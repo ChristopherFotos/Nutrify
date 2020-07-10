@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import anim from "./animations";
+
+// * This componentrenders the search options dropdown. It uses CSS transitions to collapse and expand. It is rendered by
+
+// SearchBar and takes that component's updateOptions funciton as a prop. This component holds several checkboxes that correspond
+
+// with the diet labels offered by the edamam API. When one of the checkboxes is clicked, the props.updateOptions function
+
+// is called.
 
 class SearchDropdown extends React.Component {
   constructor(props) {
@@ -9,15 +16,6 @@ class SearchDropdown extends React.Component {
       blue: false,
     };
   }
-
-  //   componentDidMount() {
-  //     let optionBox = document.getElementById("search-options-expand");
-  //     optionBox.style.height = "0";
-  //     let childArray = Array.from(optionBox.children);
-  //     childArray.forEach((elem) => {
-  //       elem.style.display = "none";
-  //     });
-  //   }
 
   render() {
     return (

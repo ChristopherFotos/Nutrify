@@ -101,12 +101,6 @@ const SearchBar = (props) => {
     });
   };
 
-  const renderOptions = () => {
-    if (isExpanded) {
-      return <SearchDropdown updateOptions={updateOptions}></SearchDropdown>;
-    }
-  };
-
   return (
     <form className="search-form">
       <div className="search-flexbox-span flex-align-bottom">

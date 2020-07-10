@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import SearchBar from "./searchComponent";
 import SearchSummary from "./searchSummary";
-// import "./materialize.css";
+import "./materialize.css";
 
 import CardContainer from "./cardContainer";
 
@@ -16,7 +16,7 @@ const App = () => {
     console.log(options, input);
     let req = `https://api.edamam.com/search?q=${input}&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=100`;
 
-    // The following conditionals add the user's diet type selections to the request string
+    // The following conditionals add the user's diet type selections to the request string (above)
     if (options.lowCarb) {
       req += `&diet=low-carb`;
     }
@@ -49,7 +49,7 @@ const App = () => {
 
     console.log(req);
 
-    setQuery();
+    // setQuery();
   };
 
   const renderSearchSummary = () => {

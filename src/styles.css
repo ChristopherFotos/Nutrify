@@ -250,8 +250,6 @@ checkbox transform into something approximating the shape in the logo. */
   border-radius: 100px;
 }
 
-/* NEW CARD DESIGN BEGINS */
-
 .grid-card {
   /* background: #3b3b3b; */
   border-radius: 10px;
@@ -298,6 +296,18 @@ checkbox transform into something approximating the shape in the logo. */
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-size: 0.76rem;
+  line-height: 2.5rem;
+}
+
+.ingredient-card-tag::after {
+  content: " ingredients";
+  font-size: 0.76rem;
+  line-height: 2.5rem;
+}
+
+.nutrition-card-tag::after {
+  content: " nutrition info";
   font-size: 0.76rem;
   line-height: 2.5rem;
 }
@@ -385,6 +395,30 @@ checkbox transform into something approximating the shape in the logo. */
   /* display: none; */
   opacity: 0;
   transition: all 0.4s ease;
+}
+
+.save-button {
+  position: relative;
+  top: 1.2em;
+  left: -4%;
+  width: 10px;
+  height: 10px;
+  background-color: #1ee56b;
+  color: white;
+  font-weight: bold;
+  padding: 1em;
+  clip-path: circle(42%);
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none;
+  -webkit-box-shadow: 17px 15px 9px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 17px 15px 9px -1px rgba(0,0,0,0.75);
+      box-shadow: 17px 15px 9px -1px rgba(0,0,0,0.75);
 }
 
 /* *********************** NEW CARD CSS ENDS****************************** */

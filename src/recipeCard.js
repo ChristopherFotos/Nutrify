@@ -1,8 +1,56 @@
 import React from "react";
 
+// This component renders the card elements. 
+//
+// Time to add save functionality to this component. First we're going to write
+// a function that sends a fetch request to the save route. The body of that 
+// request will contain whatever fields the recipe model is currently set up 
+// to handle. The fields will be populated with info from this component's prop. 
+// Obviously, the user is going to have to be logged in in order to use the save
+// functionality. We can ensure that they're logged in by hitting the verify 
+// at the beginning of the function, and then only hitting the save route if
+// the verify route returns positive. If it returns negative, we can display a
+// modal that says 'please log in.' Alternatively, we could render the button only
+// for logged in users. 
+// 
+// The function will be made to run when a floating action button inside the card 
+// is clicked. 
+
+
+
 const RecipeCard = (props) => {
+
+  async function saveFunction() {
+    // Create an object to form the body of our POST request
+    let body = {
+      ingredientLines: props.recipe.recipe.ingredientLines,
+      img: props.recipe.recipe.image,
+      label: props.recipe.recipe.label
+    }
+
+    console.log(body)
+    let bodyString = JSON.stringify(body)
+
+    // Make the fetch request 
+    const res = await fetch('http://localhost:3000/user/save', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.token,
+        'Content-Type': 'application/json'
+      },
+      body: bodyString
+    })
+
+    let resJSON = await res.json()
+    console.log(resJSON)
+
+  }
+
+
   return (
     <div className="grid-card">
+      <span className="save-button" onClick={saveFunction}>Save</span>
       <img
         src={props.recipe.recipe.image}
         className="card-img"
@@ -10,7 +58,10 @@ const RecipeCard = (props) => {
       />
       <span className="recipe-title">{props.recipe.recipe.label}</span>
       <div className="card-content">
-        <span className="show-details show-details-open">Show details</span>
+        <span className="show-details show-details-open ingredient-card-tag">
+          Show
+        </span>
+
         <div className="card-content-closed">
           <ul style={{ display: "none" }}>
             {props.recipe.recipe.ingredientLines.map((ingredientLine) => {
@@ -31,7 +82,10 @@ const RecipeCard = (props) => {
       </div>
 
       <div className="card-content">
-        <span className="show-details show-details-open">Show details</span>
+        <span className="show-details show-details-open nutrition-card-tag">
+          Show
+        </span>
+
         <div className="card-content-closed">
           <ul style={{ display: "none" }}>
             {props.recipe.recipe.ingredientLines.map((ingredientLine) => {
