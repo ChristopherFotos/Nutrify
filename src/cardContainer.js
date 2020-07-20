@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import RecipeCard from "./recipeCard";
 
 // This component renders a container for the recipe cards that are returned when the user enters a search term. It accepts an array
@@ -6,11 +6,14 @@ import RecipeCard from "./recipeCard";
 // hook adds event listeners to the cards so that they can be opened and closed on click.
 
 const CardContainer = (props) => {
+  
+  let searched = false
+
   useEffect(() => {
     let targets = document.querySelectorAll(".show-details");
-
     targets.forEach((elem) => {
       elem.addEventListener("click", (e) => {
+        console.log("RUNNINNGGG")
         if (!e.target.expanded) {
           //Checks if the div is collpased and opens it
           e.target.expanded = true;
@@ -48,14 +51,21 @@ const CardContainer = (props) => {
       });
     });
   });
+  
 
-  return (
-    <div className="card-container">
-      {props.recipes.map((recipe) => {
-        return <RecipeCard recipe={recipe}></RecipeCard>;
-      })}
-    </div>
-  );
+  if (props.recipes.length > 0) {
+    return (
+      <div className="card-container">
+        {props.recipes.map((recipe) => {
+          return <RecipeCard recipe={recipe}></RecipeCard>;
+        })}
+      </div>
+    );
+  } else if (props.recipes.length < 1 && props.searched){
+    return (
+      <h3 id="no-results-message">Sorry! We couldn't find anything.</h3>
+    )
+  } else { return null }
 };
 
 export default CardContainer;

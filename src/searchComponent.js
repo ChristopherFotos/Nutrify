@@ -3,7 +3,6 @@ import logo from "./LOGO-small.svg";
 import SearchSummary from "./searchSummary";
 import MoreSearchOptions from "./MoreSearchOptions";
 import SearchDropdown from "./searchDropdown";
-import anim from "./animations";
 
 const SearchBar = (props) => {
   const [input, setInput] = useState("");
@@ -23,6 +22,7 @@ const SearchBar = (props) => {
     //the line below calls the function and passes it the values from the input and the dropdown
     props.onClick(input, searchOptions);
     setQuery(input, searchOptions);
+    props.setSearched()
   };
 
   const handleChange = (e) => {
@@ -63,9 +63,6 @@ const SearchBar = (props) => {
 
     let dropdown = document.getElementById("search-options-expand");
 
-    console.log("dropdown in toggle: ", dropdown);
-    console.log("classList in toggle: ", dropdown.classList);
-
     dropdown.classList.remove("search-dropdown-closed");
     dropdown.classList.add("search-dropdown-open");
 
@@ -76,7 +73,6 @@ const SearchBar = (props) => {
     childArray.forEach((elem) => {
       elem.classList.remove("search-option-heading-closed");
       elem.classList.add("search-option-heading-open");
-      console.log("elements classList in toggle", elem.classList);
     });
   };
 
@@ -84,13 +80,9 @@ const SearchBar = (props) => {
     toggleExpand(!isExpanded);
     console.log("toggleOff");
     let dropdown = document.getElementById("search-options-expand");
-    console.log("dropdown in toggleOff: ", dropdown);
-    console.log("classList in toggleOff: ", dropdown.classList);
 
     dropdown.classList.remove("search-dropdown-open");
     dropdown.classList.add("search-dropdown-closed");
-
-    console.log("classList in toggleOff, after change: ", dropdown.classList);
 
     let childArray = Array.from(dropdown.children);
 

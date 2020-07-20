@@ -36,27 +36,27 @@ const RecipeCard = (props) => {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Authorization': 'Bearer ' + localStorage.token,
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: bodyString
     })
 
     let resJSON = await res.json()
     console.log(resJSON)
-
   }
 
 
   return (
     <div className="grid-card">
-      <span className="save-button" onClick={saveFunction}>Save</span>
+
       <img
         src={props.recipe.recipe.image}
         className="card-img"
         alt="the finished product"
       />
       <span className="recipe-title">{props.recipe.recipe.label}</span>
+      <span className="save-button" onClick={saveFunction}>Save</span>
       <div className="card-content">
         <span className="show-details show-details-open ingredient-card-tag">
           Show
