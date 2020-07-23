@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState, useEffect } from "react";
 import logo from "./LOGO-small.svg";
 import SearchSummary from "./searchSummary";
 import MoreSearchOptions from "./MoreSearchOptions";
@@ -17,17 +18,35 @@ const SearchBar = (props) => {
   const [query, setQuery] = useState();
   const [isExpanded, toggleExpand] = useState(false);
 
+  useEffect(() => { // Add event listener for 'enter' to search bar
+    let searchBar = document.getElementsByClassName('search-bar')
+    searchBar[0].addEventListener('keyup', (e) => {
+      if (e.keyCode === 13) {
+        console.log('enter pressed')
+        props.onClick(input, searchOptions);
+        setQuery(input, searchOptions);
+      }
+    })
+  }, [input, searchOptions, props])
+
   const handleClick = (e) => {
     e.preventDefault();
     //the line below calls the function and passes it the values from the input and the dropdown
     props.onClick(input, searchOptions);
     setQuery(input, searchOptions);
-    props.setSearched()
+    // props.setSearched()
   };
 
   const handleChange = (e) => {
     setInput(e.target.value);
   };
+
+  const handleEnter = (e) => {
+    if (e.keyCode === 13) {
+      console.log('running')
+      handleClick()
+    }
+  }
 
   const updateOptions = (e) => {
     e.target.name === "low carb"
@@ -104,6 +123,7 @@ const SearchBar = (props) => {
         id="search-bar"
         value={input}
         onChange={handleChange}
+        onKeyPress={handleEnter}
         className="search-bar"
         placeholder="search by ingredient or recipe name"
       ></input>
@@ -121,7 +141,7 @@ const SearchBar = (props) => {
       </div>
       <SearchDropdown updateOptions={updateOptions}></SearchDropdown>
       <SearchSummary query={query}></SearchSummary>
-    </form>
+    </form >
   );
 };
 

@@ -3,9 +3,14 @@ import React, { Component, useState, useEffect } from "react";
 
 const LoginDropdown = (props) => {
 
-    const [emailValue, setEmailValue] = useState('');
-    const [passwordValue, setPasswordValue] = useState('');
-    const [verifyPasswordValue, setVerifyPasswordValue] = useState('');
+    const [emailValue, setEmailValue] = useState('');                     // value of the email input
+    const [passwordValue, setPasswordValue] = useState('');               // value of the input 
+    const [verifyPasswordValue, setVerifyPasswordValue] = useState('');   // value of the verify password input
+    const [invalidLogin, setInvalidLogin] = useState(false)               // set to true when the user's input is invalide
+    const [mismatchedPasswords, setMismatchedPasswords] = useState(false) // set to true when passwords don't match while registering 
+
+    // The following 3 functions sync the value of the login inputs
+    // with their respective state hooks.  
 
     let emailChange = (e) => {
         setEmailValue(e.target.value)
@@ -21,21 +26,31 @@ const LoginDropdown = (props) => {
         console.log('verify password value ', verifyPasswordValue)
     }
 
+    // The following function returns the value of the render prop 
+
     const checkRenderProp = () => {
         if (props.render === 'login') {
             return 'login'
         } else { return 'signup' }
     }
 
+    //  The following function handles logging in and signing up. It runs
+    //  when the login or signup button is clicked.  
+
     async function loginFunction() {
 
-        let creds = JSON.stringify({
+        let creds = JSON.stringify({ // get and stringify the value of the inputs
             email: emailValue,
             password: passwordValue,
             verifyPassword: verifyPasswordValue
         })
 
-        const res = await fetch(`http://localhost:3000/user/${checkRenderProp()}`, {
+        if (checkRenderProp() === 'signup' && passwordValue !== verifyPasswordValue) {
+            setMismatchedPasswords(true)
+            return
+        }
+
+        const res = await fetch(`http://localhost:3000/user/${checkRenderProp()}`, { // use those values to send a request to the login or signup route, depending on the value of props.render. 
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -43,14 +58,55 @@ const LoginDropdown = (props) => {
             },
             credentials: 'include',
             body: creds
+
+
         })
 
-        console.log(emailValue)
-
-        if (res.status === 200) {
-            props.isLoggedIn(true)
+        if (res.status === 401) {
+            setInvalidLogin(true)
+            props.isLoggedIn(false)
+            return
         }
+
+        console.log(res.status)
+
+        if (res.status === 201 || res.status === 200) { // if the response is OK, run the props.loggedIn function with argument 'true'. This will set the isLoggedIn to true in the app component. 
+            console.log('RUNNING IF STATEMENT 0')
+            props.isLoggedIn(true)
+            setInvalidLogin(false)
+
+            if (checkRenderProp() === 'signup' && !invalidLogin) { // if props.render is 'signup' and invalidLogin is false, login to the account the user just created. 
+                console.log('RUNNING IF STATEMENT 1')
+                const res2 = await fetch('http://localhost:3000/user/login', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: creds
+                })
+
+                if (res2.status === 409) {
+                    console.log('RUNNING IF STATEMENT 2')
+                    setInvalidLogin(true)
+                    console.log('409 RUNNING')
+                } else if (res2.status === 200) {
+                    console.log('RUNNING IF STATEMENT 3')
+                    setInvalidLogin(false)
+                    window.location.reload()
+                    props.isLoggedIn(true)
+                }
+            }
+        } else if (res.status === 409) {
+            setInvalidLogin(true)
+        }
+
+
+        console.log(emailValue)
     }
+
+    // The return statement begins below
 
     return (
         <div className="login-dropdown" id="login-dropdown" data-dropdown='true'>
@@ -74,6 +130,15 @@ const LoginDropdown = (props) => {
                     {props.render === 'signup' && 'sign up'}
                 </span>
             </form>
+            {(invalidLogin && props.render === 'signup') &&
+                <p>Whoops! That email is already being used.</p>
+            }
+            {(invalidLogin && props.render === 'login') &&
+                <p>Whoops! Invalid email or password.</p>
+            }
+            {mismatchedPasswords &&
+                <p>Whoops! Those passwords don't match.</p>
+            }
         </div>
     )
 }

@@ -2,7 +2,6 @@ import React, { Component, useState, useEffect } from "react";
 import SearchBar from "./searchComponent";
 import SearchSummary from "./searchSummary";
 import LoginDropdown from "./loginDropdown";
-import "./materialize.css";
 
 import CardContainer from "./cardContainer";
 
@@ -12,6 +11,8 @@ const App = () => {
   const [dropdown, setDropdown] = useState(null)
   const [loggedIn, setLoggedIn] = useState(null)
   const [searched, setSearched] = useState(false)
+  const APP_ID = "75c55f11";
+  const APP_KEY = "85c90ba0da33bd59f927417d3d72febe";
 
   useEffect(() => {
     document.addEventListener('click', (e) => {
@@ -27,8 +28,7 @@ const App = () => {
     })
   })
 
-  useEffect(() => {
-    // Check if a user is logged in, change logged in if so
+  useEffect(() => { // Check if a user is logged in, change logged in if so
     const req = async () => {
       let res = await fetch('http://localhost:3000/user/verify',
         {
@@ -45,29 +45,26 @@ const App = () => {
     req()
   }, [loggedIn])
 
-  const APP_ID = "75c55f11";
-  const APP_KEY = "85c90ba0da33bd59f927417d3d72febe";
-
-  const isLoggedIn = (user) => {
+  const isLoggedIn = (user) => { // This function is passed down the component tree to the loginDropdown. When a user successfully log in this function is run with the the argument 'true'
     setLoggedIn(user)
     console.log(loggedIn)
   }
 
-  const loginDropdown = (target) => {
+  const loginDropdown = (target) => {  // Toggling the signup dropdown
     if (target === 'signup') {
       if (dropdown === 'signup') {
         setDropdown(null)
       } else { setDropdown('signup') }
     }
 
-    if (target === 'login') {
+    if (target === 'login') {   // Toggling the login dropdown
       if (dropdown === 'login') {
         setDropdown(null)
       } else { setDropdown('login') }
     }
   };
 
-  const logout = async () => {
+  const logout = async () => {  // Making the logout request 
     let res = await fetch('http://localhost:3000/user/logout',
       {
         method: 'GET',
@@ -84,7 +81,7 @@ const App = () => {
     }
   }
 
-  const getRecipes = (input, options) => {
+  const getRecipes = (input, options) => {    // Building the request string and sending the request with fetch
     console.log(options, input);
     let req = `https://api.edamam.com/search?q=${input}&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=100`;
 
@@ -117,6 +114,9 @@ const App = () => {
       .then((data) => {
         setRecipes(data.hits);
         console.log(data.hits);
+        setSearched(true)
+        console.log('SEARCHED: ', searched)
+        console.log('SEARCHED: ', searched)
       });
 
     console.log(req);
@@ -124,7 +124,7 @@ const App = () => {
     // setQuery();
   };
 
-  const renderSearchSummary = () => {
+  const renderSearchSummary = () => {   // Render the search summary 
     if (query) {
       return <SearchSummary queries={null}></SearchSummary>;
     } else return null;
