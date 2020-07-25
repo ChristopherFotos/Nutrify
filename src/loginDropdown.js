@@ -3,10 +3,10 @@ import React, { Component, useState, useEffect } from "react";
 
 const LoginDropdown = (props) => {
 
-    const [emailValue, setEmailValue] = useState('');                     // value of the email input
-    const [passwordValue, setPasswordValue] = useState('');               // value of the input 
+    const [emailValue, setEmailValue] = useState('');   // value of the email input
+    const [passwordValue, setPasswordValue] = useState('');   // value of the input 
     const [verifyPasswordValue, setVerifyPasswordValue] = useState('');   // value of the verify password input
-    const [invalidLogin, setInvalidLogin] = useState(false)               // set to true when the user's input is invalide
+    const [invalidLogin, setInvalidLogin] = useState(false) // set to true when the user's input is invalide
     const [mismatchedPasswords, setMismatchedPasswords] = useState(false) // set to true when passwords don't match while registering 
 
     // The following 3 functions sync the value of the login inputs

@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import SearchBar from "./searchComponent";
 import SearchSummary from "./searchSummary";
 import LoginDropdown from "./loginDropdown";
+import './styles.css'
 
 import CardContainer from "./cardContainer";
 

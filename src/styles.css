@@ -508,3 +508,32 @@ checkbox transform into something approximating the shape in the logo. */
   position: relative;
   left: 14%;
 }
+
+/* 
+=================
+ Transitions
+=================
+*/
+
+.card-enter {
+  opacity: 0;
+  transform: translateY(-5%);
+}
+
+.card-enter-active{
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s;
+}
+
+.card-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-exit-active{
+  opacity: 0;
+  transform: translateY(-5%);
+  transition: all 0.4s;
+}
+

@@ -18,17 +18,6 @@ const SearchBar = (props) => {
   const [query, setQuery] = useState();
   const [isExpanded, toggleExpand] = useState(false);
 
-  useEffect(() => { // Add event listener for 'enter' to search bar
-    let searchBar = document.getElementsByClassName('search-bar')
-    searchBar[0].addEventListener('keyup', (e) => {
-      if (e.keyCode === 13) {
-        console.log('enter pressed')
-        props.onClick(input, searchOptions);
-        setQuery(input, searchOptions);
-      }
-    })
-  }, [input, searchOptions, props])
-
   const handleClick = (e) => {
     e.preventDefault();
     //the line below calls the function and passes it the values from the input and the dropdown
@@ -42,11 +31,13 @@ const SearchBar = (props) => {
   };
 
   const handleEnter = (e) => {
-    if (e.keyCode === 13) {
-      console.log('running')
-      handleClick()
+    if (e.key === 'Enter') {
+      props.onClick(input, searchOptions);
+      setQuery(input, searchOptions);
     }
   }
+
+
 
   const updateOptions = (e) => {
     e.target.name === "low carb"
@@ -123,7 +114,7 @@ const SearchBar = (props) => {
         id="search-bar"
         value={input}
         onChange={handleChange}
-        onKeyPress={handleEnter}
+        onKeyPress={(e) => handleEnter(e)}
         className="search-bar"
         placeholder="search by ingredient or recipe name"
       ></input>
