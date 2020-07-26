@@ -64,6 +64,14 @@ const SearchBar = (props) => {
       ? (searchOptions.lowSodium = !searchOptions.lowSodium)
       : (searchOptions.lowSodium = searchOptions.lowSodium);
 
+    if (e.target.name === 'cal-from' && !isNaN(e.target.value)) {
+      searchOptions.calFrom = e.target.value
+    }
+
+    if (e.target.name === 'cal-to' && !isNaN(e.target.value)) {
+      searchOptions.calTo = e.target.value
+    }
+
     console.log(searchOptions);
   };
 

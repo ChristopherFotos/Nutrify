@@ -6,7 +6,10 @@ const LoginDropdown = (props) => {
     const [emailValue, setEmailValue] = useState('');   // value of the email input
     const [passwordValue, setPasswordValue] = useState('');   // value of the input 
     const [verifyPasswordValue, setVerifyPasswordValue] = useState('');   // value of the verify password input
-    const [invalidLogin, setInvalidLogin] = useState(false) // set to true when the user's input is invalide
+    const [invalidLogin, setInvalidLogin] = useState(false) // following hooks are set to true when the user's input is invalid or empty
+    const [noPassword, setNoPassword] = useState(false)
+    const [noEmail, setNoEmail] = useState(false)
+    const [noVerifyPassword, setNoVerifyPassword] = useState(false)
     const [mismatchedPasswords, setMismatchedPasswords] = useState(false) // set to true when passwords don't match while registering 
 
     // The following 3 functions sync the value of the login inputs
@@ -48,6 +51,20 @@ const LoginDropdown = (props) => {
         if (checkRenderProp() === 'signup' && passwordValue !== verifyPasswordValue) {
             setMismatchedPasswords(true)
             return
+        }
+
+        if (emailValue === '') {
+            setNoEmail(true)
+            return
+        }
+
+        if (passwordValue === '') {
+            setNoPassword(true)
+            return
+        }
+
+        if (checkRenderProp() === 'signup' && verifyPasswordValue === '') {
+            setNoVerifyPassword(true)
         }
 
         const res = await fetch(`http://localhost:3000/user/${checkRenderProp()}`, { // use those values to send a request to the login or signup route, depending on the value of props.render. 
@@ -106,6 +123,12 @@ const LoginDropdown = (props) => {
         console.log(emailValue)
     }
 
+    let handleEnter = (e) => {
+        if (e.key === 'Enter') {
+            loginFunction()
+        }
+    }
+
     // The return statement begins below
 
     return (
@@ -116,13 +139,13 @@ const LoginDropdown = (props) => {
             </h4>
             <form data-dropdown='true'>
                 <label for='email' data-dropdown='true'>Email</label>
-                <input type='text' name='email' data-dropdown='true' onChange={emailChange} />
+                <input type='text' name='email' data-dropdown='true' className="login-input" onChange={emailChange} onKeyPress={(e) => { handleEnter(e) }} />
                 <label for='password' data-dropdown='true'>Password</label>
-                <input type='password' name='password' data-dropdown='true' onChange={passwordChange} />
+                <input type='password' name='password' data-dropdown='true' className="login-input" onChange={passwordChange} onKeyPress={(e) => { handleEnter(e) }} />
                 {props.render === 'signup' &&
                     <React.Fragment>
                         <label for='verify-password' data-dropdown='true'>Verify password</label>
-                        <input type='password' name='verify-password' data-dropdown='true' onChange={verifyPasswordChange} />
+                        <input type='password' name='verify-password' data-dropdown='true' className="login-input" onChange={verifyPasswordChange} onKeyPress={(e) => { handleEnter(e) }} />
                     </React.Fragment>
                 }
                 <span className="login-button" onClick={loginFunction} data-dropdown='true'>
@@ -139,6 +162,13 @@ const LoginDropdown = (props) => {
             {mismatchedPasswords &&
                 <p>Whoops! Those passwords don't match.</p>
             }
+            {noEmail &&
+                <p>Whoops! Please provide an email address</p>
+            }
+            {noPassword &&
+                <p>Whoops! Please provide a password</p>
+            }
+
         </div>
     )
 }

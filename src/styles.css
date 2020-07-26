@@ -220,8 +220,6 @@ checkbox transform into something approximating the shape in the logo. */
 
 .search-option-heading-open {
   font-size: 1rem;
-  font-weight: bold;
-  color: #1ee56b;
   display: block;
   opacity: 1;
   transition: all 0.5s ease;
@@ -423,6 +421,18 @@ checkbox transform into something approximating the shape in the logo. */
   color: #fff
 }
 
+.save-button-inactive {
+  color: rgb(155, 155, 155);
+  padding-left: 0.2em;
+  font-size: 16px;
+  -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none;
+}
+
 
 /* *********************** NAVBAR ****************************** */
 
@@ -507,6 +517,16 @@ checkbox transform into something approximating the shape in the logo. */
   width: 70%;
   position: relative;
   left: 14%;
+}
+
+/* 
+======================
+ Login and Signup form
+======================
+*/
+
+.login-input {
+  color: rgb(202, 202, 202);
 }
 
 /* 

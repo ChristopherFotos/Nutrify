@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "./searchComponent";
 import SearchSummary from "./searchSummary";
 import LoginDropdown from "./loginDropdown";
@@ -16,7 +16,7 @@ const App = () => {
   const APP_KEY = "85c90ba0da33bd59f927417d3d72febe";
 
   useEffect(() => {
-    document.addEventListener('click', (e) => {
+    document.addEventListener('mousedown', (e) => {
       if (dropdown === 'login' || dropdown === 'signup') {
         if (e.target.id !== 'login-dropdown' &&
           e.target.id !== 'login-button' &&
@@ -110,6 +110,12 @@ const App = () => {
       req += `&diet=low-sodium`;
     }
 
+    if ((options.calFrom && options.calTo) && (options.calFrom < options.calTo)) {
+      req += `&calories=${options.calFrom}-${options.calTo}`
+    }
+
+    console.log(req)
+
     fetch(req)
       .then((res) => res.json())
       .then((data) => {
@@ -157,7 +163,7 @@ const App = () => {
       <div className="app-container">
         <SearchBar onClick={getRecipes} setSearched={() => { setSearched(true) }}></SearchBar>
         {renderSearchSummary()}
-        <CardContainer recipes={recipes} searched={searched}></CardContainer>
+        <CardContainer recipes={recipes} searched={searched} isLoggedIn={loggedIn}></CardContainer>
       </div>
     </React.Fragment>
   );

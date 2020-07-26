@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import RecipeCard from "./recipeCard";
 import './styles.css'
 
@@ -8,67 +8,21 @@ import './styles.css'
 // hook adds event listeners to the cards so that they can be opened and closed on click.
 
 const CardContainer = (props) => {
-  
-  // useEffect(() => {
-  //   console.log('ADDING LISTENERS')
-  //   let targets = document.querySelectorAll(".show-details");
-  //   targets.forEach((elem) => {
-  //     elem.addEventListener("click", (e) => {
-        
-  //       if (!e.target.expanded) {
-  //         //Checks if the div is collpased and opens it
-  //         console.log("RUNNINNGGG")
-  //         e.target.expanded = true;
-  //         e.target.innerText = "Hide";
-  //         Array.from(e.target.parentElement.children[1].children).forEach(
-  //           (li) => {
-  //             li.style.display = "block";
-  //           }
-  //         );
-  //         e.target.parentElement.children[1].classList.remove(
-  //           "card-content-closed"
-  //         );
-  //         e.target.parentElement.children[1].classList.add("card-content-open");
-  //         e.target.parentElement.classList.remove("card-closed");
-  //         e.target.parentElement.classList.add("card-open");
-  //       } else if (e.target.expanded) {
-  //         //Checks if the div is open and collapses it
-  //         e.target.expanded = false;
-  //         e.target.innerText = "Show";
-  //         Array.from(e.target.parentElement.children[1].children).forEach(
-  //           (li) => {
-  //             li.style.display = "none";
-  //           }
-  //         );
-  //         e.target.parentElement.children[1].classList.remove(
-  //           "card-content-open"
-  //         );
-  //         e.target.parentElement.children[1].classList.add(
-  //           "card-content-closed"
-  //         );
-  //         e.target.parentElement.children[1].classList.remove("card-open");
-  //         e.target.parentElement.classList.remove("card-open");
-  //         e.target.parentElement.classList.add("card-closed");
-  //       }
-  //     });
-  //   });
-  // });
-  
 
-  if (props.recipes.length > 0) {
+  if (props.recipes) {
     return (
         <div className="card-container">
           {props.recipes.map((recipe) => {
             return (
 
-            <RecipeCard recipe={recipe}></RecipeCard>
+            <RecipeCard recipe={recipe} isLoggedIn={props.isLoggedIn}></RecipeCard>
 
           );
           })}
         </div>
       
     );
-  } else if (props.recipes.length < 1 && props.searched){
+  } else if (!props.recipes && props.searched){
     return (
       <h3 id="no-results-message">Sorry! We couldn't find anything.</h3>
     )
